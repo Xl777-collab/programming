@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
@@ -6,19 +8,19 @@
 <body>
     <div class="container">
         <h2>Main</h2>
-        <form action="/register" method="get">
+        <form action="/register" method="GET">
             <input type="submit" value="Register">
         </form>        
 
-        <form action="/reading" method="post">
-            <input type="submit" value="Meter Reading">
+        <form action="/reading" method="GET">
+            <button type="submit">Meter Reading</button>
         </form>
         
-        <form action="/query" method="post">
+        <form action="/daily_query" method="GET">
             <input type="submit" value="Query Electricity Usage">
         </form>
         
-        <form action="/history" method="post">
+        <form action="/history_query" method="GET">
             <input type="submit" value="Query History Electricity Usage">
         </form>
     </div>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Query</title>
+</head>
+<body>
+    <h1>Daily Query</h1>
+    <form action="/daily_query" method="POST">
+        <label for="user_id">User ID:</label>
+        <input type="text" id="user_id" name="user_id" required><br><br>
+
+        <label for="meter_id">Meter ID:</label>
+        <input type="text" id="meter_id" name="meter_id" required><br><br>
+
+        <button type="submit">Query</button>
+    </form>
+
+    {% if message %}
+        <p style="color: red;">{{ message }}</p>
+    {% endif %}
+
+    {% if daily_readings %}
+        <h2>Query Results for User ID: {{ user_id }}, Meter ID: {{ meter_id }}</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Reading</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reading in daily_readings %}
+                    <tr>
+                        <td>{{ reading.meter_update_time }}</td>
+                        <td>{{ reading.reading }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <!-- 添加 Back to Main 按钮 -->
+    <br>
+    <a href="/">
+        <button>Back to Main</button>
+    </a>
+</body>
+</html>

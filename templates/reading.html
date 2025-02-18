@@ -1,0 +1,31 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Page</title>
+</head>
+<body>
+    <h1>Enter Your Details</h1>
+    <form action="/upload_reading" method="POST">
+        <label for="user_id">User ID:</label>
+        <input type="text" id="user_id" name="user_id" required><br><br>
+
+        <label for="meter_id">Meter ID:</label>
+        <input type="text" id="meter_id" name="meter_id" required><br><br>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if message %}
+        <p style="color: red;">{{ message }}</p>
+    {% endif %}
+
+    <!-- 添加 Back to Main 按钮 -->
+    <br>
+    <a href="/">
+        <button>Back to Main</button>
+    </a>
+</body>
+</html>
