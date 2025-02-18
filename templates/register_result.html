@@ -1,0 +1,26 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Registration Result</h2>
+        <p>{{ message }}</p>
+        
+        {% if user_id %}
+        <p><strong>User ID:</strong> {{ user_id }}</p>
+        <p><strong>User Name:</strong> {{ username }}</p>
+        <p><strong>Meter ID:</strong> {{ meter_id }}</p>
+        <p><strong>Dwelling Type:</strong> {{ dwelling_type }}</p>
+        <p><strong>Region:</strong> {{ region }}</p>
+        <p><strong>Area:</strong> {{ area }}</p>
+        {% endif %}
+        
+        <form action="/" method="get">
+            <input type="submit" value="Back to Main">
+        </form>
+    </div>
+</body>
+</html>

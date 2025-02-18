@@ -1,0 +1,26 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Main Page</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Main</h2>
+        <form action="/register" method="get">
+            <input type="submit" value="Register">
+        </form>        
+
+        <form action="/reading" method="post">
+            <input type="submit" value="Meter Reading">
+        </form>
+        
+        <form action="/query" method="post">
+            <input type="submit" value="Query Electricity Usage">
+        </form>
+        
+        <form action="/history" method="post">
+            <input type="submit" value="Query History Electricity Usage">
+        </form>
+    </div>
+</body>
+</html>
