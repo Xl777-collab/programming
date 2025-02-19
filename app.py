@@ -255,36 +255,44 @@ def load_json_data():
     log_path = 'app_log.txt'
     
     try:
-        # 🚀 先检查 JSON 文件是否存在
+        # **🚀 检查 JSON 文件是否存在**
         if not os.path.exists(json_path):
             print("⚠️ electricity_record.json 不存在，创建新文件...")
             with open(json_path, 'w') as f:
                 json.dump({}, f)
             return {}
 
-        # 🚀 读取 JSON 数据
+        # **🚀 读取 JSON 数据**
         with open(json_path, 'r') as file:
-            return json.load(file)  # ✅ JSON 格式正确，正常返回数据
+            data = json.load(file)
+            print("✅ JSON 数据加载成功")
+            return data  # **如果 JSON 没问题，直接返回数据**
 
-    except (FileNotFoundError, json.JSONDecodeError):
-        print("❌ JSON 文件损坏，尝试从日志恢复数据...")
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"❌ JSON 文件损坏或无法解析: {e}")
+        print("❗ 尝试从日志恢复数据...")
 
-        # 🚀 第一步：删除损坏的 JSON 并重置为空 `{}` 文件
+        # **🚀 删除损坏的 JSON 并重置为空 `{}` 文件**
         if os.path.exists(json_path):
             os.remove(json_path)
         
         with open(json_path, 'w') as f:
             json.dump({}, f)
 
-        # 🚀 第二步：尝试从 `app_log.txt` 读取历史数据
+        # **🚀 读取 `app_log.txt` 并尝试恢复**
         recovered_data = recover_data_from_logs(log_path)
 
-        # 🚀 第三步：将恢复的数据写入 JSON 文件
-        with open(json_path, 'w') as f:
-            json.dump(recovered_data, f, indent=4)
+        # **🚀 确保恢复成功**
+        if recovered_data:
+            print("✅ 恢复成功，写入 electricity_record.json")
+            with open(json_path, 'w') as f:
+                json.dump(recovered_data, f, indent=4)
+        else:
+            print("⚠️ 恢复失败，JSON 仍为空")
 
         return recovered_data
-        
+
+
 def recover_data_from_logs(log_path):
     """ 从日志文件中恢复数据 """
     recovered_data = {}
@@ -296,6 +304,12 @@ def recover_data_from_logs(log_path):
     with open(log_path, 'r') as file:
         logs = file.readlines()
 
+    if not logs:
+        print("⚠️ 日志文件为空，无法恢复数据")
+        return recovered_data
+
+    print("✅ 读取日志文件，开始解析...")
+    
     for log in logs:
         try:
             parts = log.strip().split(" | ")
@@ -305,7 +319,9 @@ def recover_data_from_logs(log_path):
             timestamp, action, details = parts[0], parts[1], " | ".join(parts[2:])
 
             if action == "REGISTER":
-                # 解析注册信息
+                # **解析注册信息**
+                print(f"🔹 发现 REGISTER 日志: {log.strip()}")  # 🔥 调试信息
+                
                 details_parts = details.split("Registered user ")[1].split(" with meter ")
                 username = details_parts[0]
                 meter_id = details_parts[1].split(" ")[0]
@@ -326,12 +342,14 @@ def recover_data_from_logs(log_path):
                 }
 
             elif action == "UPLOAD_READING":
-                # 解析电表读数日志
+                # **解析电表读数日志**
+                print(f"🔹 发现 UPLOAD_READING 日志: {log.strip()}")  # 🔥 调试信息
+
                 details_parts = details.split("Uploaded reading ")[1].split(" at ")
                 reading = float(details_parts[0])
                 reading_time = details_parts[1]
 
-                # 通过 user_id 查找用户（日志里没有 user_id 直接关联，所以使用 meter_id 匹配）
+                # **尝试匹配 meter_id**
                 matching_user = None
                 for user in recovered_data.values():
                     if user["meter_id"] in log:
@@ -350,7 +368,11 @@ def recover_data_from_logs(log_path):
         except Exception as e:
             print(f"⚠️ 解析日志时发生错误: {e}")
 
+    print("✅ 恢复的数据如下：")
+    print(json.dumps(recovered_data, indent=4))  # **打印最终恢复的数据**
+    
     return recovered_data
+
 
 
 @app.route('/daily_query', methods=['GET', 'POST'])
