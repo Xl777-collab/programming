@@ -5,7 +5,7 @@ import json
 import os
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key" 
+app.secret_key = "your_secret_key"
 user_data = {}
 
 def log_action(action, user_id, message):
@@ -98,7 +98,6 @@ def submit_reading():
 
     reading = float(request.form.get('reading'))
 
-    # 获取当前时间（基于用户选择的日期）
     if not user_data[user_id]['meter_readings']:
         # 如果是第一次上传，使用用户选择的日期的 01:00:00
         current_time = f"{date} 01:00:00"
@@ -108,7 +107,6 @@ def submit_reading():
         current_time = (datetime.datetime.strptime(last_reading_time, '%Y-%m-%d %H:%M:%S') +
                        datetime.timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M:%S')
 
-    # 添加读数
     user_data[user_id]['meter_readings'].append({
         "meter_update_time": current_time,
         "reading": reading
@@ -207,10 +205,6 @@ def daily_query():
         if user_id not in user_data or user_data[user_id]['meter_id'] != meter_id:
             return render_template('daily_query.html', message="Invalid User ID or Meter ID")
 
-        # 打印调试信息
-        print(f"User ID: {user_id}, Meter ID: {meter_id}")
-        print(f"User Data: {user_data.get(user_id)}")
-
         # 获取 meter_readings 中的日期
         if user_data[user_id]['meter_readings']:
             # 从第一条读数中提取日期
@@ -253,7 +247,6 @@ def history_query():
         if not user_id or not meter_id or not query_date:
             return render_template('history_query.html', message="User ID, Meter ID, and Date are required!")
 
-        # 加载 JSON 数据
         json_data = load_json_data()
 
         # 检查用户是否存在
@@ -286,10 +279,8 @@ def history_query():
         if not reading_0100 or not reading_2330:
             return render_template('history_query.html', message=f"Incomplete data for the date: {query_date}")
 
-        # 计算一日总用电量
         total_usage = reading_2330 - reading_0100
 
-        # 准备查询结果
         query_result = {
             "date": query_date,
             "reading_0100": reading_0100,

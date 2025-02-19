@@ -1,11 +1,11 @@
 {
-    "110657": {
+    "540148": {
         "user_info": {
-            "user_id": "110657",
+            "user_id": "540148",
             "username": "abc",
             "meter_id": "123",
             "dwelling_type": "1-room / 2-room",
-            "region": "Central Region",
+            "region": "West Region",
             "area": "West",
             "register_account_time": "2025-02-19 01:00:00"
         },
@@ -16,412 +16,183 @@
             },
             {
                 "meter_update_time": "2025-02-19 01:30:00",
-                "reading": 2.0
+                "reading": 1.0
             },
             {
                 "meter_update_time": "2025-02-19 02:00:00",
-                "reading": 3.0
+                "reading": 1.0
             },
             {
                 "meter_update_time": "2025-02-19 02:30:00",
-                "reading": 4.0
+                "reading": 1.0
             },
             {
                 "meter_update_time": "2025-02-19 03:00:00",
-                "reading": 4.0
+                "reading": 1.0
             },
             {
                 "meter_update_time": "2025-02-19 03:30:00",
-                "reading": 4.0
-            },
-            {
-                "meter_update_time": "2025-02-19 04:00:00",
-                "reading": 4.0
-            },
-            {
-                "meter_update_time": "2025-02-19 04:30:00",
-                "reading": 4.0
-            },
-            {
-                "meter_update_time": "2025-02-19 05:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 05:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 06:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 06:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 07:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 07:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 08:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 08:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 09:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 09:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 10:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 10:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 11:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 11:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 12:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 12:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 13:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 13:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 14:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 14:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 15:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 15:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 16:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 16:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 17:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 17:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 18:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 18:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 19:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 19:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 20:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 20:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 21:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 21:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 22:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 22:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 23:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 23:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-20 01:00:00",
-                "reading": 30.0
-            },
-            {
-                "meter_update_time": "2025-02-20 01:30:00",
-                "reading": 32.0
-            }
-        ]
-    },
-    "396772": {
-        "user_info": {
-            "user_id": "396772",
-            "username": "abc",
-            "meter_id": "789",
-            "dwelling_type": "4-room",
-            "region": "Central Region",
-            "area": "West",
-            "register_account_time": "2025-02-19 01:00:00"
-        },
-        "meter_readings": [
-            {
-                "meter_update_time": "2025-02-19 01:00:00",
                 "reading": 1.0
             },
             {
-                "meter_update_time": "2025-02-19 01:30:00",
+                "meter_update_time": "2025-02-19 04:00:00",
+                "reading": 1.0
+            },
+            {
+                "meter_update_time": "2025-02-19 04:30:00",
+                "reading": 1.0
+            },
+            {
+                "meter_update_time": "2025-02-19 05:00:00",
+                "reading": 1.0
+            },
+            {
+                "meter_update_time": "2025-02-19 05:30:00",
                 "reading": 2.0
             },
             {
-                "meter_update_time": "2025-02-19 02:00:00",
+                "meter_update_time": "2025-02-19 06:00:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 06:30:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 07:00:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 07:30:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 08:00:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 08:30:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 09:00:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 09:30:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 10:00:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 10:30:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 11:00:00",
+                "reading": 2.0
+            },
+            {
+                "meter_update_time": "2025-02-19 11:30:00",
                 "reading": 3.0
             },
             {
-                "meter_update_time": "2025-02-19 02:30:00",
+                "meter_update_time": "2025-02-19 12:00:00",
+                "reading": 3.0
+            },
+            {
+                "meter_update_time": "2025-02-19 12:30:00",
+                "reading": 3.0
+            },
+            {
+                "meter_update_time": "2025-02-19 13:00:00",
+                "reading": 3.0
+            },
+            {
+                "meter_update_time": "2025-02-19 13:30:00",
+                "reading": 3.0
+            },
+            {
+                "meter_update_time": "2025-02-19 14:00:00",
+                "reading": 3.0
+            },
+            {
+                "meter_update_time": "2025-02-19 14:30:00",
+                "reading": 3.0
+            },
+            {
+                "meter_update_time": "2025-02-19 15:00:00",
                 "reading": 4.0
             },
             {
-                "meter_update_time": "2025-02-19 03:00:00",
+                "meter_update_time": "2025-02-19 15:30:00",
+                "reading": 4.0
+            },
+            {
+                "meter_update_time": "2025-02-19 16:00:00",
+                "reading": 4.0
+            },
+            {
+                "meter_update_time": "2025-02-19 16:30:00",
+                "reading": 4.0
+            },
+            {
+                "meter_update_time": "2025-02-19 17:00:00",
+                "reading": 4.0
+            },
+            {
+                "meter_update_time": "2025-02-19 17:30:00",
+                "reading": 4.0
+            },
+            {
+                "meter_update_time": "2025-02-19 18:00:00",
+                "reading": 4.0
+            },
+            {
+                "meter_update_time": "2025-02-19 18:30:00",
                 "reading": 5.0
             },
             {
-                "meter_update_time": "2025-02-19 03:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 04:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 04:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 05:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 05:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 06:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 06:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 07:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 07:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 08:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 08:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 09:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 09:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 10:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 10:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 11:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 11:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 12:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 12:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 13:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 13:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 14:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 14:30:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 15:00:00",
-                "reading": 6.0
-            },
-            {
-                "meter_update_time": "2025-02-19 15:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 16:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 16:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 17:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 17:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 18:00:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-19 18:30:00",
-                "reading": 8.0
-            },
-            {
                 "meter_update_time": "2025-02-19 19:00:00",
-                "reading": 8.0
+                "reading": 5.0
             },
             {
                 "meter_update_time": "2025-02-19 19:30:00",
-                "reading": 8.0
+                "reading": 5.0
             },
             {
                 "meter_update_time": "2025-02-19 20:00:00",
-                "reading": 8.0
+                "reading": 5.0
             },
             {
                 "meter_update_time": "2025-02-19 20:30:00",
-                "reading": 8.0
+                "reading": 5.0
             },
             {
                 "meter_update_time": "2025-02-19 21:00:00",
-                "reading": 8.0
+                "reading": 5.0
             },
             {
                 "meter_update_time": "2025-02-19 21:30:00",
-                "reading": 8.0
+                "reading": 6.0
             },
             {
                 "meter_update_time": "2025-02-19 22:00:00",
-                "reading": 8.0
+                "reading": 6.0
             },
             {
                 "meter_update_time": "2025-02-19 22:30:00",
-                "reading": 8.0
+                "reading": 6.0
             },
             {
                 "meter_update_time": "2025-02-19 23:00:00",
-                "reading": 8.0
+                "reading": 6.0
             },
             {
                 "meter_update_time": "2025-02-19 23:30:00",
-                "reading": 8.0
-            },
-            {
-                "meter_update_time": "2025-02-20 01:00:00",
-                "reading": 11.0
-            },
-            {
-                "meter_update_time": "2025-02-20 01:30:00",
-                "reading": 12.0
-            },
-            {
-                "meter_update_time": "2025-02-20 02:00:00",
-                "reading": 13.0
-            },
-            {
-                "meter_update_time": "2025-02-20 02:30:00",
-                "reading": 14.0
-            },
-            {
-                "meter_update_time": "2025-02-20 03:00:00",
-                "reading": 15.0
-            },
-            {
-                "meter_update_time": "2025-02-20 03:30:00",
-                "reading": 16.0
+                "reading": 7.0
             }
         ]
     }

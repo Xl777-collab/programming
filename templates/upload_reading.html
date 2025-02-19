@@ -23,9 +23,9 @@
             <p>Time: {{ latest_reading.meter_update_time }}, Reading: {{ latest_reading.reading }}</p>
         {% endif %}
 
-        <a href="/">
-            <button>Back to Main</button>
-        </a>
+        <form action="/" method="get">
+            <input type="submit" value="Back to Main">
+        </form>
     </div>
 </body>
 </html>
