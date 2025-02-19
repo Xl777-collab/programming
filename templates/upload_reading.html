@@ -1,31 +1,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Reading</title>
+    <title>Upload Meter Reading</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Upload Meter Reading</h1>
-    <form action="/submit_reading" method="POST">
-        <label for="reading">Meter Reading:</label>
-        <input type="number" id="reading" name="reading" step="0.01" required><br><br>
+    <div class="container">
+        <h1>Upload Meter Reading</h1>
+        <form action="/submit_reading" method="POST">
+            <label for="reading">Meter Reading:</label>
+            <input type="number" id="reading" name="reading" step="0.01" required>
 
-        <input type="hidden" id="user_id" name="user_id" value="{{ user_id }}">
-        <input type="hidden" id="meter_id" name="meter_id" value="{{ meter_id }}">
-        <input type="hidden" id="date" name="date" value="{{ date }}">
+            <input type="hidden" id="user_id" name="user_id" value="{{ user_id }}">
+            <input type="hidden" id="meter_id" name="meter_id" value="{{ meter_id }}">
+            <input type="hidden" id="date" name="date" value="{{ date }}">
 
-        <button type="submit">Upload Reading</button>
-    </form>
+            <button type="submit">Upload Reading</button>
+        </form>
 
-    <!-- 显示最新的一条读数 -->
-    {% if latest_reading %}
-        <h2>Previous Reading</h2>
-        <p>Time: {{ latest_reading.meter_update_time }}, Reading: {{ latest_reading.reading }}</p>
-    {% endif %}
+        {% if latest_reading %}
+            <h2>Previous Reading</h2>
+            <p>Time: {{ latest_reading.meter_update_time }}, Reading: {{ latest_reading.reading }}</p>
+        {% endif %}
 
-    <!-- 添加 Back to Main 按钮 -->
-    <br>
-    <a href="/">
-        <button>Back to Main</button>
-    </a>
+        <a href="/">
+            <button>Back to Main</button>
+        </a>
+    </div>
 </body>
 </html>

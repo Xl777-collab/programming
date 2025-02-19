@@ -1,31 +1,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading Page</title>
+    <title>Enter Your Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Enter Your Details</h1>
-    <form action="/upload_reading" method="POST">
-        <label for="user_id">User ID:</label>
-        <input type="text" id="user_id" name="user_id" required><br><br>
+    <div class="container">
+        <h2>Enter Your Details</h2>
+        <form action="/upload_reading" method="POST">
+            <label for="user_id">User ID:</label>
+            <input type="text" id="user_id" name="user_id" required>
 
-        <label for="meter_id">Meter ID:</label>
-        <input type="text" id="meter_id" name="meter_id" required><br><br>
+            <label for="meter_id">Meter ID:</label>
+            <input type="text" id="meter_id" name="meter_id" required>
 
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required><br><br>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
 
-        <button type="submit">Submit</button>
-    </form>
+            <input type="submit" value="Submit">
+        </form>
 
-    {% if message %}
-        <p style="color: red;">{{ message }}</p>
-    {% endif %}
+        {% if message %}
+            <p style="color: red;">{{ message }}</p>
+        {% endif %}
 
-    <!-- 添加 Back to Main 按钮 -->
-    <br>
-    <a href="/">
-        <button>Back to Main</button>
-    </a>
+        <form action="/" method="get">
+            <input type="submit" value="Back">
+        </form>
+    </div>
 </body>
 </html>

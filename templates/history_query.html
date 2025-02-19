@@ -1,68 +1,59 @@
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>History Query</title>
-    <style>
-        table {
-            width: 50%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
-    <h1>History Query</h1>
-    <form action="/history_query" method="POST">
-        <label for="user_id">User ID:</label>
-        <input type="text" id="user_id" name="user_id" required><br><br>
+    <div class="container">
+        <h2>History Query</h2>
+        <form action="/history_query" method="POST">
+            <div class="form-group">
+                <label for="user_id">User ID:</label>
+                <input type="text" id="user_id" name="user_id" required>
+            </div>
 
-        <label for="meter_id">Meter ID:</label>
-        <input type="text" id="meter_id" name="meter_id" required><br><br>
+            <div class="form-group">
+                <label for="meter_id">Meter ID:</label>
+                <input type="text" id="meter_id" name="meter_id" required>
+            </div>
 
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required><br><br>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
 
-        <button type="submit">Query</button>
-    </form>
+            <button type="submit" class="btn">Query</button>
+        </form>
 
-    {% if message %}
-        <p style="color: red;">{{ message }}</p>
-    {% endif %}
+        {% if message %}
+            <p class="error-message">{{ message }}</p>
+        {% endif %}
 
-    {% if query_result %}
-        <h2>Query Results for User ID: {{ user_id }}, Meter ID: {{ meter_id }}</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>01:00:00 Reading</th>
-                    <th>23:30:00 Reading</th>
-                    <th>Total Usage</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ query_result.date }}</td>
-                    <td>{{ query_result.reading_0100 }}</td>
-                    <td>{{ query_result.reading_2330 }}</td>
-                    <td>{{ query_result.total_usage }}</td>
-                </tr>
-            </tbody>
-        </table>
-    {% endif %}
+        {% if query_result %}
+            <h2>Query Results for User ID: {{ user_id }}, Meter ID: {{ meter_id }}</h2>
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>01:00:00 Reading</th>
+                        <th>23:30:00 Reading</th>
+                        <th>Total Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ query_result.date }}</td>
+                        <td>{{ query_result.reading_0100 }}</td>
+                        <td>{{ query_result.reading_2330 }}</td>
+                        <td>{{ query_result.total_usage }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
 
-    <!-- 添加 Back to Main 按钮 -->
-    <br>
-    <a href="/">
-        <button>Back to Main</button>
-    </a>
+        <!-- Back to Main Button -->
+        <br>
+        <a href="/" class="btn">Back to Main</a>
+    </div>
 </body>
 </html>

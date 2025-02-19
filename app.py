@@ -5,7 +5,7 @@ import json
 import os
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # 用于 session 处理
+app.secret_key = "your_secret_key" 
 user_data = {}
 
 def log_action(action, user_id, message):
@@ -50,7 +50,7 @@ def register_result():
 
     return render_template(
         'register_result.html',
-        message=f"✅ Successfully registered! Unique User ID: {unique_user_id}",
+        message=f"Successfully registered!",
         user_id=unique_user_id,
         username=username,
         meter_id=meter_id,
