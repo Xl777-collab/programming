@@ -12,9 +12,11 @@ def log_action(action, user_id, message):
     # 获取当前时间
     current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
-    # 日志内容
-    log_entry = f"[{current_time}] [{action}] User ID: {user_id} - {message}\n"
-    
+    log_entry = (
+        f"[{current_time}] [{action}] "
+        f"UserID:{user_id} "  # 明确记录原始 user_id
+        f"Details: {message}\n"
+    )
     # 将日志写入本地文件
     with open("app_log.txt", "a") as log_file:
         log_file.write(log_entry)
@@ -239,14 +241,22 @@ def recover_system():
         with open(log_file, "w") as f:
             f.write("System Log Initialized\n")
 
-    # Ensure all users in user_data have a valid structure
-    for user_id, user_info in user_data.items():
-        if "meter_readings" not in user_info:
-            user_info["meter_readings"] = []
-        if "next_meter_update_time" not in user_info:
-            user_info["next_meter_update_time"] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-    print("✅ System Recovery Complete. Ready to Run.")
+    for user_id in user_data:
+        user = user_data[user_id]
+        required_keys = {'username', 'meter_id', 'meter_readings', 'next_meter_update_time'}
+        if not required_keys.issubset(user.keys()):
+            print(f"⚠️ 用户 {user_id} 数据结构损坏，已重置")
+            user_data[user_id] = {  # 重置为默认结构
+                "user_id": user_id,
+                "username": "unknown",
+                "meter_id": "unknown",
+                "dwelling_type": "unknown",
+                "region": "unknown",
+                "area": "unknown",
+                "register_account_time": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                "meter_readings": [],
+                "next_meter_update_time": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
 
 
 def load_json_data():
@@ -263,10 +273,17 @@ def load_json_data():
             return {}
 
         # **🚀 读取 JSON 数据**
-        with open(json_path, 'r') as file:
-            data = json.load(file)
-            print("✅ JSON 数据加载成功")
-            return data  # **如果 JSON 没问题，直接返回数据**
+        with open('electricity_record.json', 'r') as f:
+            data = json.load(f)
+            
+            # 转换旧数据结构
+            for user_id in data:
+                if 'user_info' in data[user_id]:  # 兼容旧格式
+                    data[user_id] = {
+                        **data[user_id]['user_info'],
+                        'meter_readings': data[user_id]['meter_readings']
+                    }
+            return data
 
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"❌ JSON 文件损坏或无法解析: {e}")
@@ -293,84 +310,43 @@ def load_json_data():
         return recovered_data
 
 
+import re
+
 def recover_data_from_logs(log_path):
-    """ 从日志文件中恢复数据 """
     recovered_data = {}
+    register_pattern = re.compile(
+        r"\[(.*?)\] \[REGISTER\] UserID:(\d+) Details:Registered user (.*?) with meter (.*?)"
+    )
+    reading_pattern = re.compile(
+        r"\[(.*?)\] \[UPLOAD_READING\] UserID:(\d+) Details:Uploaded reading ([\d.]+) at (.*?)"
+    )
 
-    if not os.path.exists(log_path):
-        print("⚠️ 没有找到日志文件，无法恢复数据")
-        return recovered_data
-
-    with open(log_path, 'r') as file:
-        logs = file.readlines()
-
-    if not logs:
-        print("⚠️ 日志文件为空，无法恢复数据")
-        return recovered_data
-
-    print("✅ 读取日志文件，开始解析...")
-    
-    for log in logs:
-        try:
-            parts = log.strip().split(" | ")
-            if len(parts) < 3:
-                continue  # 无效日志跳过
-
-            timestamp, action, details = parts[0], parts[1], " | ".join(parts[2:])
-
-            if action == "REGISTER":
-                # **解析注册信息**
-                print(f"🔹 发现 REGISTER 日志: {log.strip()}")  # 🔥 调试信息
-                
-                details_parts = details.split("Registered user ")[1].split(" with meter ")
-                username = details_parts[0]
-                meter_id = details_parts[1].split(" ")[0]
-
-                # 生成 user_id（日志里没有存 user_id，所以这里随机生成）
-                user_id = str(random.randint(100000, 999999))
-
+    with open(log_path, 'r') as f:
+        for line in f:
+            # 解析注册日志
+            if match := register_pattern.search(line):
+                timestamp, user_id, username, meter_id = match.groups()
                 recovered_data[user_id] = {
                     "user_id": user_id,
                     "username": username,
                     "meter_id": meter_id,
-                    "dwelling_type": "Unknown",
-                    "region": "Unknown",
-                    "area": "Unknown",
+                    "dwelling_type": "unknown",  # 默认值
+                    "region": "unknown",
+                    "area": "unknown",
                     "register_account_time": timestamp,
                     "meter_readings": [],
                     "next_meter_update_time": timestamp
                 }
-
-            elif action == "UPLOAD_READING":
-                # **解析电表读数日志**
-                print(f"🔹 发现 UPLOAD_READING 日志: {log.strip()}")  # 🔥 调试信息
-
-                details_parts = details.split("Uploaded reading ")[1].split(" at ")
-                reading = float(details_parts[0])
-                reading_time = details_parts[1]
-
-                # **尝试匹配 meter_id**
-                matching_user = None
-                for user in recovered_data.values():
-                    if user["meter_id"] in log:
-                        matching_user = user
-                        break
-                
-                if matching_user:
-                    matching_user["meter_readings"].append({
+            
+            # 解析读数日志
+            elif match := reading_pattern.search(line):
+                timestamp, user_id, reading, reading_time = match.groups()
+                if user_id in recovered_data:
+                    recovered_data[user_id]['meter_readings'].append({
                         "meter_update_time": reading_time,
-                        "reading": reading
+                        "reading": float(reading)
                     })
-
-                    # 更新 `next_meter_update_time`
-                    matching_user["next_meter_update_time"] = reading_time
-
-        except Exception as e:
-            print(f"⚠️ 解析日志时发生错误: {e}")
-
-    print("✅ 恢复的数据如下：")
-    print(json.dumps(recovered_data, indent=4))  # **打印最终恢复的数据**
-    
+                    recovered_data[user_id]['next_meter_update_time'] = reading_time
     return recovered_data
 
 
