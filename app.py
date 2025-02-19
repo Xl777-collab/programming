@@ -203,6 +203,8 @@ def next_day():
 
     return redirect(url_for('upload_reading'))
 
+#def 
+
 @app.route('/daily_query', methods=['GET', 'POST'])
 def daily_query():
     if request.method == 'POST':
