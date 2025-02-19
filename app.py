@@ -267,11 +267,8 @@ def load_json_data():
             json.dump({}, file)
         return {}
 
-# 让 `/daily_query` 使用新的 `load_json_data()`
 @app.route('/daily_query', methods=['GET', 'POST'])
 def daily_query():
-    json_data = load_json_data()  # ✅ 在查询前加载 JSON，并确保它没有损坏
-
     if request.method == 'POST':
         user_id = request.form.get('user_id')
         meter_id = request.form.get('meter_id')
@@ -279,13 +276,21 @@ def daily_query():
         if not user_id or not meter_id:
             return render_template('daily_query.html', message="User ID and Meter ID are required!")
 
-        if user_id not in json_data or json_data[user_id]['user_info']['meter_id'] != meter_id:
+        if user_id not in user_data or user_data[user_id]['meter_id'] != meter_id:
             return render_template('daily_query.html', message="Invalid User ID or Meter ID")
+
+        # 获取 meter_readings 中的日期
+        if user_data[user_id]['meter_readings']:
+            # 从第一条读数中提取日期
+            first_reading_time = user_data[user_id]['meter_readings'][0]['meter_update_time']
+            date = first_reading_time.split(' ')[0]  # 提取日期部分（YYYY-MM-DD）
+        else:
+            return render_template('daily_query.html', message="No readings available for the selected user and meter")
 
         # 过滤出当天的读数数据
         daily_readings = [
-            reading for reading in json_data[user_id]['meter_readings']
-            if reading['meter_update_time'].startswith(datetime.datetime.now().strftime('%Y-%m-%d'))
+            reading for reading in user_data[user_id]['meter_readings']
+            if reading['meter_update_time'].startswith(date)
         ]
 
         return render_template(
