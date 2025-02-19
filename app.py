@@ -197,7 +197,6 @@ def next_day():
     if not user_id or not meter_id:
         return "Session expired or invalid request", 400
 
-
     next_date = (datetime.datetime.strptime(user_data[user_id]['next_meter_update_time'], '%Y-%m-%d %H:%M:%S') +
                 datetime.timedelta(days=1)).strftime('%Y-%m-%d')
     user_data[user_id]['next_meter_update_time'] = f"{next_date} 01:00:00"
