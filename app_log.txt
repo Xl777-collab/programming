@@ -1,0 +1,4 @@
+[2025-02-19 05:37:31] [REGISTER] User ID: 716045 - Registered user 000 with meter 000
+[2025-02-19 05:38:01] [UPLOAD_READING] User ID: 716045 - Uploaded reading 1.0 at 2025-02-14 01:00:00
+[2025-02-19 05:39:16] [UPLOAD_READING] User ID: 716045 - Uploaded reading 33.0 at 2025-02-13 01:00:00
+[2025-02-19 05:39:44] [UPLOAD_READING] User ID: 716045 - Uploaded reading 11.0 at 2025-02-13 01:30:00

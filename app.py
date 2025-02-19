@@ -9,7 +9,18 @@ app.secret_key = "your_secret_key"
 user_data = {}
 
 def log_action(action, user_id, message):
-    print(f"[{action}] User ID: {user_id} - {message}")
+    # 获取当前时间
+    current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
+    # 日志内容
+    log_entry = f"[{current_time}] [{action}] User ID: {user_id} - {message}\n"
+    
+    # 将日志写入本地文件
+    with open("app_log.txt", "a") as log_file:
+        log_file.write(log_entry)
+    
+    # 同时在控制台打印日志（可选）
+    print(log_entry.strip())
 
 @app.route('/')
 def main_page():
