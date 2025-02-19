@@ -249,9 +249,29 @@ def recover_system():
     print("✅ System Recovery Complete. Ready to Run.")
 
 
+def load_json_data():
+    """加载 JSON 文件中的数据，并在损坏时重置"""
+    try:
+        if not os.path.exists('electricity_record.json'):
+            print("⚠️ electricity_record.json 不存在，创建新文件...")
+            with open('electricity_record.json', 'w') as f:
+                json.dump({}, f)
+            return {}
 
+        with open('electricity_record.json', 'r') as file:
+            return json.load(file)
+
+    except (FileNotFoundError, json.JSONDecodeError):
+        print("⚠️ electricity_record.json 损坏，重置为空 JSON...")
+        with open('electricity_record.json', 'w') as file:
+            json.dump({}, file)
+        return {}
+
+# 让 `/daily_query` 使用新的 `load_json_data()`
 @app.route('/daily_query', methods=['GET', 'POST'])
 def daily_query():
+    json_data = load_json_data()  # ✅ 在查询前加载 JSON，并确保它没有损坏
+
     if request.method == 'POST':
         user_id = request.form.get('user_id')
         meter_id = request.form.get('meter_id')
@@ -259,21 +279,13 @@ def daily_query():
         if not user_id or not meter_id:
             return render_template('daily_query.html', message="User ID and Meter ID are required!")
 
-        if user_id not in user_data or user_data[user_id]['meter_id'] != meter_id:
+        if user_id not in json_data or json_data[user_id]['user_info']['meter_id'] != meter_id:
             return render_template('daily_query.html', message="Invalid User ID or Meter ID")
-
-        # 获取 meter_readings 中的日期
-        if user_data[user_id]['meter_readings']:
-            # 从第一条读数中提取日期
-            first_reading_time = user_data[user_id]['meter_readings'][0]['meter_update_time']
-            date = first_reading_time.split(' ')[0]  # 提取日期部分（YYYY-MM-DD）
-        else:
-            return render_template('daily_query.html', message="No readings available for the selected user and meter")
 
         # 过滤出当天的读数数据
         daily_readings = [
-            reading for reading in user_data[user_id]['meter_readings']
-            if reading['meter_update_time'].startswith(date)
+            reading for reading in json_data[user_id]['meter_readings']
+            if reading['meter_update_time'].startswith(datetime.datetime.now().strftime('%Y-%m-%d'))
         ]
 
         return render_template(
@@ -286,16 +298,11 @@ def daily_query():
 
     return render_template('daily_query.html', message="")
 
-def load_json_data():
-    """加载 JSON 文件中的数据"""
-    try:
-        with open('electricity_record.json', 'r') as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return {}
-
+# 让 `/history_query` 也使用新的 `load_json_data()`
 @app.route('/history_query', methods=['GET', 'POST'])
 def history_query():
+    json_data = load_json_data()  # ✅ 在查询前加载 JSON，并确保它没有损坏
+
     if request.method == 'POST':
         user_id = request.form.get('user_id')
         meter_id = request.form.get('meter_id')
@@ -304,13 +311,9 @@ def history_query():
         if not user_id or not meter_id or not query_date:
             return render_template('history_query.html', message="User ID, Meter ID, and Date are required!")
 
-        json_data = load_json_data()
-
-        # 检查用户是否存在
         if user_id not in json_data:
             return render_template('history_query.html', message="Invalid User ID")
 
-        # 检查 meter_id 是否匹配
         if json_data[user_id]['user_info']['meter_id'] != meter_id:
             return render_template('history_query.html', message="Invalid Meter ID")
 
@@ -354,6 +357,8 @@ def history_query():
         )
 
     return render_template('history_query.html', message="")
+
+
 
 if __name__ == '__main__':
     recover_system()
