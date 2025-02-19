@@ -10,19 +10,34 @@
         <form action="/register_result" method="post">
             <label for="meter_id">Meter ID:</label>
             <input type="text" id="meter_id" name="meter_id" required>
-            
+
             <label for="user_name">User Name:</label>
             <input type="text" id="user_name" name="user_name" required>
-            
+
             <label for="dwelling_type">Dwelling Type:</label>
-            <input type="text" id="dwelling_type" name="dwelling_type" required>
-            
+            <select id="dwelling_type" name="dwelling_type" required>
+                <option value="" disabled selected>Select Dwelling Type</option>
+                <option value="1-room / 2-room">1-room / 2-room</option>
+                <option value="3-room">3-room</option>
+                <option value="4-room">4-room</option>
+                <option value="5-room and Executive">5-room and Executive</option>
+                <option value="Landed Properties">Landed Properties</option>
+                <option value="Private Apartments and Condominiums">Private Apartments and Condominiums</option>
+            </select>
+
             <label for="region">Region:</label>
-            <input type="text" id="region" name="region" required>
-            
+            <select id="region" name="region" required>
+                <option value="" disabled selected>Select Region</option>
+                <option value="Central Region">Central Region</option>
+                <option value="East Region">East Region</option>
+                <option value="North Region">North Region</option>
+                <option value="North East Region">North East Region</option>
+                <option value="West Region">West Region</option>
+            </select>
+
             <label for="area">Area:</label>
             <input type="text" id="area" name="area" required>
-            
+
             <input type="submit" value="Submit">
         </form>
         
