@@ -203,7 +203,52 @@ def next_day():
 
     return redirect(url_for('upload_reading'))
 
-#def 
+def recover_system():
+    """ Recover system by checking and resetting necessary files if corrupted or missing. """
+    
+    global user_data  # Ensure we update the global variable
+
+    # Check and recover the electricity record file
+    electricity_file = "electricity_record.json"
+    if not os.path.exists(electricity_file):
+        print("⚠️ electricity_record.json not found. Creating a new one.")
+        with open(electricity_file, "w") as f:
+            json.dump({}, f)  # Create an empty JSON file
+    else:
+        try:
+            with open(electricity_file, "r") as f:
+                data = json.load(f)
+            if not isinstance(data, dict):
+                raise ValueError("Invalid JSON format")
+        except (json.JSONDecodeError, ValueError):
+            print("⚠️ electricity_record.json is corrupted. Resetting to empty structure.")
+            with open(electricity_file, "w") as f:
+                json.dump({}, f)
+
+    # Load user data from electricity_record.json if available
+    try:
+        with open(electricity_file, "r") as f:
+            user_data = json.load(f)
+    except (json.JSONDecodeError, FileNotFoundError):
+        user_data = {}
+
+    # Check and recover the application log file
+    log_file = "app_log.txt"
+    if not os.path.exists(log_file):
+        print("⚠️ app_log.txt not found. Creating a new one.")
+        with open(log_file, "w") as f:
+            f.write("System Log Initialized\n")
+
+    # Ensure all users in user_data have a valid structure
+    for user_id, user_info in user_data.items():
+        if "meter_readings" not in user_info:
+            user_info["meter_readings"] = []
+        if "next_meter_update_time" not in user_info:
+            user_info["next_meter_update_time"] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    print("✅ System Recovery Complete. Ready to Run.")
+
+
 
 @app.route('/daily_query', methods=['GET', 'POST'])
 def daily_query():
@@ -311,4 +356,5 @@ def history_query():
     return render_template('history_query.html', message="")
 
 if __name__ == '__main__':
+    recover_system()
     app.run(debug=True)
