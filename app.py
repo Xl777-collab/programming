@@ -9,20 +9,20 @@ app.secret_key = "your_secret_key"
 user_data = {}
 
 def log_action(action, user_id, message):
-    # 获取当前时间
+    """记录系统日志，确保所有关键数据都在日志中"""
     current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    
+
     log_entry = (
         f"[{current_time}] [{action}] "
-        f"UserID:{user_id} "  # 明确记录原始 user_id
+        f"UserID:{user_id} "
         f"Details: {message}\n"
     )
-    # 将日志写入本地文件
+
     with open("app_log.txt", "a") as log_file:
         log_file.write(log_entry)
-    
-    # 同时在控制台打印日志（可选）
-    print(log_entry.strip())
+
+    print(log_entry.strip())  # 可选，在控制台显示日志
+
 
 @app.route('/')
 def main_page():
@@ -241,65 +241,58 @@ def recover_system():
         with open(log_file, "w") as f:
             f.write("System Log Initialized\n")
 
-    for user_id in user_data:
-        user = user_data[user_id]
-        required_keys = {'username', 'meter_id', 'meter_readings', 'next_meter_update_time'}
-        if not required_keys.issubset(user.keys()):
-            print(f"⚠️ 用户 {user_id} 数据结构损坏，已重置")
-            user_data[user_id] = {  # 重置为默认结构
-                "user_id": user_id,
-                "username": "unknown",
-                "meter_id": "unknown",
-                "dwelling_type": "unknown",
-                "region": "unknown",
-                "area": "unknown",
-                "register_account_time": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                "meter_readings": [],
-                "next_meter_update_time": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            }
+    # Ensure all users in user_data have a valid structure
+    for user_id, user_info in user_data.items():
+        if "meter_readings" not in user_info:
+            user_info["meter_readings"] = []
+        if "next_meter_update_time" not in user_info:
+            user_info["next_meter_update_time"] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    print("✅ System Recovery Complete. Ready to Run.")
 
 
 def load_json_data():
-    """ 加载 JSON 数据，若损坏则重置为空 JSON，并从日志恢复 """
+    """加载 JSON 数据，若损坏则重置为空 JSON，并从日志恢复"""
     json_path = 'electricity_record.json'
     log_path = 'app_log.txt'
-    
+
     try:
-        # **🚀 检查 JSON 文件是否存在**
+        # **检查 JSON 文件是否存在**
         if not os.path.exists(json_path):
             print("⚠️ electricity_record.json 不存在，创建新文件...")
             with open(json_path, 'w') as f:
                 json.dump({}, f)
             return {}
 
-        # **🚀 读取 JSON 数据**
-        with open('electricity_record.json', 'r') as f:
+        # **读取 JSON 数据**
+        with open(json_path, 'r') as f:
             data = json.load(f)
-            
-            # 转换旧数据结构
+
+            # 确保数据结构正确
             for user_id in data:
                 if 'user_info' in data[user_id]:  # 兼容旧格式
                     data[user_id] = {
                         **data[user_id]['user_info'],
                         'meter_readings': data[user_id]['meter_readings']
                     }
+
             return data
 
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"❌ JSON 文件损坏或无法解析: {e}")
         print("❗ 尝试从日志恢复数据...")
 
-        # **🚀 删除损坏的 JSON 并重置为空 `{}` 文件**
+        # **删除损坏的 JSON 并重置为空 `{}` 文件**
         if os.path.exists(json_path):
             os.remove(json_path)
-        
+
         with open(json_path, 'w') as f:
             json.dump({}, f)
 
-        # **🚀 读取 `app_log.txt` 并尝试恢复**
+        # **尝试从日志恢复**
         recovered_data = recover_data_from_logs(log_path)
 
-        # **🚀 确保恢复成功**
+        # **确保恢复成功**
         if recovered_data:
             print("✅ 恢复成功，写入 electricity_record.json")
             with open(json_path, 'w') as f:
@@ -310,10 +303,11 @@ def load_json_data():
         return recovered_data
 
 
-import re
 
 def recover_data_from_logs(log_path):
+    """解析日志文件并恢复数据"""
     recovered_data = {}
+
     register_pattern = re.compile(
         r"\[(.*?)\] \[REGISTER\] UserID:(\d+) Details:Registered user (.*?) with meter (.*?)"
     )
@@ -330,14 +324,14 @@ def recover_data_from_logs(log_path):
                     "user_id": user_id,
                     "username": username,
                     "meter_id": meter_id,
-                    "dwelling_type": "unknown",  # 默认值
+                    "dwelling_type": "unknown",
                     "region": "unknown",
                     "area": "unknown",
                     "register_account_time": timestamp,
                     "meter_readings": [],
                     "next_meter_update_time": timestamp
                 }
-            
+
             # 解析读数日志
             elif match := reading_pattern.search(line):
                 timestamp, user_id, reading, reading_time = match.groups()
@@ -347,6 +341,7 @@ def recover_data_from_logs(log_path):
                         "reading": float(reading)
                     })
                     recovered_data[user_id]['next_meter_update_time'] = reading_time
+
     return recovered_data
 
 
